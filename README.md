@@ -20,7 +20,9 @@ $ rails db:create
 $ rails db:migrate
 ```
 4. サーバーを起動
+```
 $ rails s
+```
 5. 以下のURLにアクセスする
 ```
 $ http://localhost:3000/
