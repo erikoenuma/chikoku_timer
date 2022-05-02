@@ -32,7 +32,7 @@ $ http://localhost:3000/
 
 ### [カタログ設計](https://docs.google.com/spreadsheets/d/1n--QdxONgLz9wqXD_VEIKB3tkjOkPBFEQhETt0j2yeA/edit?usp=sharing)
 ### [テーブル定義書](https://docs.google.com/spreadsheets/d/1n--QdxONgLz9wqXD_VEIKB3tkjOkPBFEQhETt0j2yeA/edit?usp=sharing)
-### [ワイヤーフレーム](https://drive.google.com/file/d/1ekcT5uzIEei7OSX74ssRAkUyHEjn9-h6/view?usp=sharing)
+### [ワイヤーフレーム](https://drive.google.com/file/d/1vdU2l8EYZGNvwuV6jG8Lzh-Gj0e_VNZv/view?usp=sharing)
 ### ER図
 ![Catalog1_ER drawio](https://user-images.githubusercontent.com/75299872/166174764-56c0951e-6cfe-452a-b01e-763c581686ac.png)
 ### 画面遷移図
