@@ -15,7 +15,7 @@ $ cd chikoku_timer
 ```
 3. 以下のコマンドを実行
 ```
-$ bunele install
+$ bundle install
 $ rails db:create
 $ rails db:migrate
 ```
