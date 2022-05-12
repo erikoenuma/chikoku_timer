@@ -1,0 +1,59 @@
+<header class="masthead" style="background-image: url(<%= asset_path 'home-bg.jpg' %>)">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1><%= @timer.title %></h1>
+                    <span class="subheading"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7 container">
+          <div class="row justify-content-center">
+            <%# <h3 id = "limit_time" class="post-subtitle text-center my-5"></h3><br> %>
+            <h3 class="post-subtitle text-center my-5">当日は<%= @timer.prepare_limit_time_string %>までに準備を始めましょう</h3><br>
+            <div class="col-5"><h6 class="post-subtitle">バス・電車到着時刻</h6></div>
+            <div class="col-3"><h3 class="post-subtitle"><%= @timer.arrival_time %></h3></div>
+            <div class="col-5"><h6 class="post-subtitle">駅・バス停まで</h6></div>
+            <div class="col-3"><h3 class="post-subtitle"><%= @timer.require_time %>分</h3></div>
+            <div class="col-5"><h6 class="post-subtitle">歩く速さ</h6></div>
+            <div class="col-3"><h3 class="post-subtitle"><%= @timer.walking_speed_ja %></h3></div>
+          </div>
+          <!-- Divider-->
+          <hr class="my-4" />
+          <div class="text-center row justify-content-center">
+            <h5 class="m-4">出発前の準備</h5><br>
+            <% if @activities != nil %>
+              <div id="activities" data-activities-id="<%= @activities.to_json %>"></div>
+              <table class="table-borderless col-md-5", style="table-layout:fixed;">
+                <thead>
+                </thead>
+                <tbody id="activities_list">
+                  <% @activities.each do |activity| %>
+                    <tr id="this_activity_<%= activity.id %>">
+                      <td class="align-middle"><%= activity.title %></td>
+                      <td class="align-middle"><%= activity.minutes %>分<%= activity.seconds %>秒</td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+            <%# <h5 id = "total_time" class="post-subtitle m-4"></h5> %>
+            <h5 class="post-subtitle m-4">合計<%= @timer.total_activities_time_string %></h5>
+          </div>
+          <div class="row justify-content-center my-5">
+            <div class="col-3">
+              <%= link_to '戻る', timer_path(@timer), class:"btn btn-outline-light btn-lg" %>
+            </div>
+            <div class="col-6">
+              <button onclick="location.href='./start.html'" class="btn btn-primary btn-lg">準備を始める</button><br>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

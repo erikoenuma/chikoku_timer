@@ -7,6 +7,10 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+require("jquery-ui/ui/widgets/sortable")
+require("jquery")
+require("table_sort")
+// require("timer")
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -15,3 +19,6 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+import 'bootstrap';
+import '../stylesheets/styles';
+import './scripts';

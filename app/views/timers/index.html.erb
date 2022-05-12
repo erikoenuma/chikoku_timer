@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Timers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Arrival time</th>
+      <th>Require time</th>
+      <th>Walking speed</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @timers.each do |timer| %>
+      <tr>
+        <td><%= timer.title %></td>
+        <td><%= timer.arrival_time %></td>
+        <td><%= timer.require_time %></td>
+        <td><%= timer.walking_speed %></td>
+        <td><%= link_to 'Show', timer %></td>
+        <td><%= link_to 'Edit', edit_timer_path(timer) %></td>
+        <td><%= link_to 'Destroy', timer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Timer', new_timer_path %>

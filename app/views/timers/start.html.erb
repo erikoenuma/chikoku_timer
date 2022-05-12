@@ -1,0 +1,243 @@
+<header class="masthead" style="background-image: url(<%= asset_path 'home-bg.jpg' %>)">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1 id="activity-name" class="display-1"><%= @activities.first.title %></h1>
+                    <h1 class="m-5">
+                        <strong id = "min"><%= @activities.first.minutes %>:</strong><strong id = "sec"><%= @activities.first.seconds %></strong>
+                    </h1>
+                    <div id="next-activity-name" class="display-sm-6 mb-3"></div>
+                </div>
+                <div class="text-center">
+                    <div class="d-flex justify-content-center">
+                        <button id="back-btn" onclick="back()" class="btn btn-outline-light btn-sm">戻る</button>
+                        <button id="pause-btn" onclick="pause()" class="btn btn-outline-light btn-sm mx-2">一時停止</button>
+                        <button id="next-btn" onclick="stopTimer()" class="btn btn-outline-light btn-sm">次へ</button><br>
+                    </div>
+                    <button id="go-btn" onclick="showResult()" class="btn btn-outline-light btn-lg mt-3 mb-5 ">家を出る</button><br>
+                    <button id="quit-btn" class="btn btn-sm mt-5 text-white ">やめる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="timerData" data-timer-id="<%= @timer.to_json %>"></div>
+<div id="activities" data-activities-id="<%= @activities.to_json %>"></div>
+
+<%# js------------------------------------------------------------ %>
+
+<script type="text/javascript">
+
+const restMin = document.getElementById("min");
+const restSec = document.getElementById("sec");
+const activityName = document.getElementById("activity-name");
+const nextActivityName = document.getElementById("next-activity-name");
+var originalMin;
+var originalSec;
+var activities = $('#activities').data('activities-id');
+var timer = $('#timerData').data('timer-id');
+
+// 準備開始時刻
+var startTime = new Date();
+console.log(timer)
+var backBtn = document.getElementById("back-btn");
+var poseBtn = document.getElementById("pause-btn");
+var nextBtn = document.getElementById("next-btn");
+var quitBtn = document.getElementById("quit-btn");
+
+quitBtn.onclick = function(){
+    clearInterval(count);
+    window.location.href = `./set.html`
+}
+
+console.log(activities);
+
+// カウント処理
+var count;
+// アクティビティ何番目か
+var i = 0;
+// 経過時間
+var elapsedSeconds = 0;
+
+startTimer();
+
+// タイマー開始
+function startTimer() {
+    backBtn.disabled = (i == 0) ? true : false;
+    elapsedSeconds = 0;
+    originalMin = canDoAll() ? activities[i].minutes : Math.floor(diffSeconds() / 60);
+    originalSec = canDoAll() ? activities[i].seconds : Math.floor(diffSeconds() % 60);
+
+    // 「次へ」ボタンの処理
+    if (isExists(activities, i+1)) {
+        nextTitle = activities[i+1].title;
+        nextActivityName.innerHTML = `次は「${activities[i+1].title}」`;
+        nextBtn.disabled = false;
+    }
+    else {
+        nextTitle = null;
+        nextActivityName.innerHTML = "";
+        nextBtn.disabled = true;
+    }
+    restMin.innerHTML = String(originalMin).padStart(2, '0') + ":";
+    restSec.innerHTML = String(originalSec).padStart(2, '0');
+    activityName.innerHTML = `${activities[i].title}`;
+    // カウントスタート
+    count = setInterval(restTime, 1000);
+}
+
+
+function diffSeconds() {
+    const date = new Date();
+    const arrivalHours = timer.arrival_time.slice(0,2);
+    const arrivalMinutes = timer.arrival_time.slice(-2);
+    const arrivalDate = new Date();
+    arrivalDate.setHours(arrivalHours);
+    arrivalDate.setMinutes(arrivalMinutes - timer.require_time - 1);
+    console.log("departureLimit", departureLimitDate());
+    // const diffSeconds = (date.getHours() - departureLimitDate().getHours()) * 60 * 60 + (date.getMinutes() - departureLimitDate().getMinutes() + timer.require_time) * 60;
+    const diffSeconds = Math.floor((date - departureLimitDate()) / 1000);
+    console.log("diffSeconds", diffSeconds);
+    return diffSeconds >= 0 ? 0 : Math.abs(diffSeconds);
+}
+
+function canDoAll() {
+    // アクティビティを丸ごとできるリミットのdate
+    const date = new Date();
+    date.setHours(timer.arrival_time.slice(0,2));
+    date.setMinutes(timer.arrival_time.slice(-2) - activities[i].minutes - timer.require_time);
+    date.setSeconds(date.getSeconds() - activities[i].seconds);
+    // 現在時刻
+    const nowDate = new Date();
+    return ((departureLimitDate() - nowDate) / 1000) - activities[i].minutes * 60 - activities[i].seconds > 0;
+}
+
+function toggleNextBtn() {
+    if (isExists(activities, i+1)) {
+        nextBtn.disabled = false;
+    }
+    else {
+        nextBtn.disabled = true;
+    }
+}
+
+function stopTimer() {
+    clearInterval(count);
+    i ++;
+    if (activities[i] != null) {
+        startTimer();
+    }
+    else {
+        restMin.innerHTML = "00:";
+        restSec.innerHTML = "00";
+    }
+}
+
+function pause() {
+    if (poseBtn.textContent == "一時停止") {
+        poseBtn.textContent = "再開"
+        nextBtn.disabled = true;
+        clearInterval(count);
+    }
+    else {
+        poseBtn.textContent = "一時停止"
+        nextBtn.disabled = false;
+        count = setInterval(restTime, 1000)
+    } 
+}
+
+function back() {
+    clearInterval(count);
+    i --;
+    startTimer();
+    backBtn.disabled = (i == 0) ? true : false;
+}
+
+function isExists(obj,key){
+    if( obj[key] == undefined ){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+// 残り時間
+function restTime() {
+    elapsedSeconds ++;
+
+    // 残り時間を表示
+    const original = originalMin * 60 + originalSec;
+    const minutes = Math.floor((original - elapsedSeconds) / 60);
+    const seconds = Math.floor((original - elapsedSeconds) % 60);
+
+    if (minutes >= 0) {
+        restMin.innerHTML = String(minutes).padStart(2, '0') + ":";
+    }
+    else {
+        restMin.innerHTML = "00:";
+    }
+    
+    if (seconds >= 0) {
+        restSec.innerHTML = String(seconds).padStart(2, "0");
+    }
+    else {
+        restSec.innerHTML = String(60 - Math.abs(seconds%60)).padStart(2, "0");
+    }
+
+    if (minutes < 0 && seconds < 0) {
+        // タイマー終了
+        stopTimer();
+    }
+
+    console.log("restMin", parseInt(restMin.innerHTML));
+    console.log("restSec", parseInt(restSec.innerHTML));
+}
+
+function showResult() {
+    if (isOnTime()) {
+        window.location.href = `../../results/${timer.id}/success.html`;
+    }
+    else {
+        window.location.href = `../../results/${timer.id}/failure.html`;
+    }
+}
+
+function isOnTime() {
+    // 「家を出る」ボタンを押したタイミング
+    const now = new Date();
+    
+    // 「家を出る」ボタンを押したタイミングが到着時刻より前の時に成功
+    if (now < departureLimitDate()) {
+        return true; 
+    }
+    else {
+        return false;
+    }
+}
+
+// 間に合う出発時刻の期限
+function departureLimitDate() {
+    const limitHours = timer.arrival_time.slice(0,2);
+    const limitMinutes = timer.arrival_time.slice(-2) - timer.require_time - 1 
+    const limitDate = new Date();
+    limitDate.setHours(limitHours);
+    limitDate.setMinutes(limitMinutes);
+
+    // 準備開始時刻が既に到着時刻を過ぎていた場合、＋1日する
+    if (startTime > limitDate) {
+        limitDate.setDate(limitDate.getDate()+1);
+    }
+
+    switch (timer.walking_speed) {
+        case "slow":
+            limitDate.setMinutes(limitDate.getMinutes() + 3);
+        case "normal":
+            limitDate.setMinutes(limitDate.getMinutes() + 2);
+    }
+
+    return limitDate;
+}
+
+</script>

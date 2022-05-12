@@ -1,0 +1,46 @@
+<%= form_with(model: timer, local: true) do |form| %>
+  <% if timer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(timer.errors.count, "") %>個のエラーがあります</h2>
+
+      <ul>
+        <% timer.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <label for="validationCustom01"><%= form.label :title %></label>
+    <%= form.text_field :title, class:"form-control", placeholder:"タイトル", required:true, maxlength:"255" %>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label><%= form.label :arrival_time %></label>
+      <%= form.time_field :arrival_time, class:"form-control", required:true %>
+    </div>
+    <div class="form-group col-md-6">
+      <label><%= form.label :require_time %>(分)</label>
+      <%= form.number_field :require_time, class:"form-control", placeholder:"5", required:true, min:"1" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label><%= form.label :walking_speed %></label>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :walking_speed, "slow", type:"radio", class:"form-check-input", id:"inlineRadio1" %>
+      <label class="form-check-label" for="inlineRadio1" value="slow">ゆっくり</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :walking_speed, "normal", type:"radio", class:"form-check-input", id:"inlineRadio2", checked:true %>
+      <label class="form-check-label" for="inlineRadio2" value="normal">普通</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :walking_speed, "fast", type:"radio", class:"form-check-input", id:"inlineRadio3" %>
+      <label class="form-check-label" for="inlineRadio3" value="fast">速い</label>
+    </div>
+  </div>
+  <div class="text-right">
+    <button type="submit" class="btn btn-primary mb-5">決定</button>
+  </div> 
+<% end %>

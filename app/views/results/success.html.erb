@@ -1,0 +1,80 @@
+<header class="masthead" style="background-image: url(<%= asset_path 'home-bg.jpg' %>)">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Congratulations!</h1>
+                    <span id="title" class="subheading mt-3"></span>
+                </div>
+                <div class="text-center">
+                    <button onclick="location.href='/'" class="btn btn-sm mt-5 text-white">トップに戻る</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="timerData" data-timer-id="<%= @timer.to_json %>"></div>
+<div id="activities" data-activities-id="<%= @activities.to_json %>"></div>
+
+<%# js ---------------------------------------------------------------- %>
+
+<script type="text/javascript">
+var timer = $('#timerData').data('timer-id');
+var activities = $('#activities').data('activities-id');
+
+console.log(timer);
+var totalTime = 0;
+activities.forEach(e => 
+  totalTime += (e.minutes * 60 + e.seconds)
+);
+
+var title;
+switch (true) {
+    case (diffMinutes() >= 2):
+        console.log("よゆう");
+        title = "余裕で間に合います！"
+        break;
+    case diffMinutes() < 2 && diffMinutes() > 0:
+        title = "少し急ぎましょう！"
+        console.log("ぴったり");
+        break;
+    case diffMinutes() <= 0:
+        console.log("走れ");
+        title = "走れば間に合います！"
+        break;
+}
+
+console.log("dif", diffMinutes());
+document.getElementById("title").innerHTML = title
+
+function diffMinutes() {
+    const date = new Date();
+    const diff = Math.floor((date - departureLimitDate()) / 1000 / 60 )
+    return Math.abs(diff);
+}
+
+// 間に合う出発時刻の期限
+function departureLimitDate() {
+    const limitHours = timer.arrival_time.slice(0,2);
+    const limitMinutes = timer.arrival_time.slice(-2) - timer.require_time - 1 
+    const limitDate = new Date();
+    limitDate.setHours(limitHours);
+    limitDate.setMinutes(limitMinutes);
+
+    // 準備開始時刻が既に到着時刻を過ぎていた場合、＋1日する
+    if (new Date() > limitDate) {
+        limitDate.setDate(limitDate.getDate()+1);
+    }
+
+    switch (timer.walking_speed) {
+        case "slow":
+            limitDate.setMinutes(limitDate.getMinutes() + 3);
+        case "normal":
+            limitDate.setMinutes(limitDate.getMinutes() + 2);
+    }
+
+    return limitDate;
+}
+
+</script>

@@ -1,3 +1,22 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root "timers#new"
+
+  resources :timers do
+    resources :activities, only: [:create, :edit, :update, :destroy] do
+      put :sort
+    end
+
+    member do 
+      get "set"
+      get "start"
+    end
+  end
+
+  resources :results do
+    member do 
+      get "success"
+      get "failure"
+    end
+  end
+  
 end

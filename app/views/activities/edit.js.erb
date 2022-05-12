@@ -1,0 +1,2 @@
+$('.alert').remove();
+$("#this_activity_<%= @activity.id %>").replaceWith("<%= j(render 'activities/edit', { timer: @timer, activity: @activity }) %>");

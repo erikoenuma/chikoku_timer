@@ -1,0 +1,44 @@
+<header class="masthead" style="background-image: url(<%= asset_path 'home-bg.jpg' %>)">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1> No more Chikoku.</h1>
+                    <span class="subheading">寝坊しても、まだ間に合う。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-description text-center">
+                <p>遅刻が原因で印象が下がる、評価が下がると答えた人はなんと80％以上。</p>
+                <p>「そんなの分かってる」「アラームで起きられない」そうですよね。でも大丈夫。</p>
+                <p>寝坊しても間に合うように、時間内でできる範囲の支度を自動で選択し</p>
+                <p>タイマーであなたの身支度をサポートします。</p>
+                <strong>もう絶対に遅刻させません。</strong>
+            </div>
+            <!-- Divider-->
+            <hr class="my-5" />
+            <div>
+                <h1 class="my-5">まずは試してみる</h1>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-primary btn-sm mx-1", onclick="location.href='/timers/1'">OLの朝</button>
+                    <button class="btn btn-outline-primary btn-sm mx-1", onclick="location.href='/timers/2'">サラリーマンの朝</button>
+                    <button class="btn btn-outline-primary btn-sm mx-1", onclick="location.href='/timers/3'">友達と遊ぶ時</button>
+                    <button class="btn btn-outline-primary btn-sm mx-1", onclick="location.href='/timers/4'">旅行</button>
+                    <button class="btn btn-outline-primary btn-sm mx-1", onclick="location.href='/timers/5'">歯医者</button>
+                </div>
+            </div>
+            <!-- Divider-->
+            <hr class="my-5" />
+            <!-- Pager-->
+            <h1 class="my-5"><%= t('timer.new.title') %></h1>
+
+            <%= render 'form', timer: @timer %>
+        </div>
+    </div>
+</div>
