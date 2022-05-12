@@ -18,6 +18,7 @@ $ cd chikoku_timer
 $ bundle install
 $ rails db:create
 $ rails db:migrate
+$ rails db:seed
 ```
 4. サーバーを起動
 ```
