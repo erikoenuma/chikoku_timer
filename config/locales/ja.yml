@@ -49,13 +49,4 @@ ja:
       updated: タイマーを更新しました
     destroy:
       destroyed: タイマーを削除しました
-  activity:
-    new: 
-      title: やること追加
-    create:
-      created: やることを登録しました
-    update:
-      updated: やることを更新しました
-    destroy:
-      destroyed: やることを削除しました
       

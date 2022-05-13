@@ -1,4 +1,4 @@
-<header class="masthead" style="background-image: url(<%= asset_path 'home-bg.jpg' %>)">
+<header class="masthead" style="background-image: url(<%= asset_path 'success.jpg' %>)">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -36,12 +36,12 @@ switch (true) {
         title = "余裕で間に合います！"
         break;
     case diffMinutes() < 2 && diffMinutes() > 0:
-        title = "少し急ぎましょう！"
+        title = "丁度間に合います！"
         console.log("ぴったり");
         break;
     case diffMinutes() <= 0:
-        console.log("走れ");
-        title = "走れば間に合います！"
+        console.log("ぎりぎり");
+        title = "少し急ぎましょう！"
         break;
 }
 
