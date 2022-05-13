@@ -40,9 +40,9 @@ ActiveRecord::Schema.define(version: 2022_05_11_065804) do
   create_table "timers", force: :cascade do |t|
     t.string "title", null: false
     t.integer "require_time", null: false
+    t.string "arrival_time", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "arrival_time"
     t.string "walking_speed", default: "normal", null: false
   end
 
