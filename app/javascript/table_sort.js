@@ -7,6 +7,7 @@ $(function(){
         
         params[item_data.modelName] = { priority_position: item.index() }
         console.log(params);
+        console.log(item_data);
         $.ajax({
           type: 'POST',
           url: item_data.updateUrl,
