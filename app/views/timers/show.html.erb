@@ -19,7 +19,8 @@
             <div class="col-3"><h3 class="post-subtitle"><%= @timer.arrival_time %></h3></div>
             <div class="col-5"><h6 class="post-subtitle">駅・バス停まで</h6></div>
             <div class="col-3"><h3 class="post-subtitle"><%= @timer.require_time %>分</h3></div>
-            <div class="col-5"><h6 class="post-subtitle">歩く速さ</h6></div>              <div class="col-3"><h3 class="post-subtitle"><%= @timer.walking_speed_ja %></h3></div>
+            <div class="col-5"><h6 class="post-subtitle">歩く速さ</h6></div>              
+            <div class="col-3"><h3 class="post-subtitle"><%= @timer.walking_speed_ja %></h3></div>
           </div>
           <div class="text-right">
             <%= link_to '編集', edit_timer_path(@timer), class:"btn btn-outline-primary btn-sm" %>

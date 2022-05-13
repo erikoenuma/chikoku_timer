@@ -82,4 +82,5 @@ class ActivitiesController < ApplicationController
     def activity_params
       params.require(:activity).permit(:title, :minutes, :seconds, :priority_position)
     end
+
 end
